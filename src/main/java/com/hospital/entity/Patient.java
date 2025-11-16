@@ -25,7 +25,6 @@ public class Patient {
     
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
-    @NotNull(message = "User is required")
     private User user;
     
     @Column(name = "date_of_birth", nullable = false)

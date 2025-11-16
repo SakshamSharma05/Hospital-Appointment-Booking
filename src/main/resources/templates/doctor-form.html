@@ -20,6 +20,16 @@
                                     th:text="${user.firstName + ' ' + user.lastName + ' (' + user.email + ')'}">
                             </option>
                         </select>
+                        <div class="form-text">
+                            <span th:if="${#lists.isEmpty(users)}">
+                                No users available yet.
+                                <a href="/users/new" target="_blank">Create a user</a>.
+                            </span>
+                            <span th:if="${!#lists.isEmpty(users)}">
+                                Can't find the user?
+                                <a href="/users/new" target="_blank">Create a new user</a>.
+                            </span>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">

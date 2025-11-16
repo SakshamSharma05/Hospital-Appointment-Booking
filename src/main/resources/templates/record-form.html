@@ -22,6 +22,16 @@
                                         th:selected="${record.patient != null && record.patient.id == patient.id}">
                                 </option>
                             </select>
+                            <div class="form-text">
+                                <span th:if="${#lists.isEmpty(patients)}">
+                                    No patients available yet.
+                                    <a href="/patients/new" target="_blank">Create a patient</a>.
+                                </span>
+                                <span th:if="${!#lists.isEmpty(patients)}">
+                                    Can't find the patient?
+                                    <a href="/patients/new" target="_blank">Create a new patient</a>.
+                                </span>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Doctor</label>
@@ -33,6 +43,16 @@
                                         th:selected="${record.doctor != null && record.doctor.id == doctor.id}">
                                 </option>
                             </select>
+                            <div class="form-text">
+                                <span th:if="${#lists.isEmpty(doctors)}">
+                                    No doctors available yet.
+                                    <a href="/doctors/new" target="_blank">Create a doctor</a>.
+                                </span>
+                                <span th:if="${!#lists.isEmpty(doctors)}">
+                                    Can't find the doctor?
+                                    <a href="/doctors/new" target="_blank">Create a new doctor</a>.
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">

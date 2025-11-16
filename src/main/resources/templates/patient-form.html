@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">User</label>
-                            <select class="form-select" name="userId" th:disabled="${patient.id != null}">
+                            <select class="form-select" name="userId" th:disabled="${patient.id != null}" th:attrappend="required=${patient.id == null}">
                                 <option value="">Select User</option>
                                 <option th:each="user : ${users}" 
                                         th:value="${user.id}" 
@@ -22,6 +22,16 @@
                                         th:selected="${patient.user != null && patient.user.id == user.id}">
                                 </option>
                             </select>
+                            <div class="form-text" th:if="${patient.id == null}">
+                                <span th:if="${#lists.isEmpty(users)}">
+                                    No users available yet.
+                                    <a href="/users/new" target="_blank">Create a user</a>.
+                                </span>
+                                <span th:if="${!#lists.isEmpty(users)}">
+                                    Can't find the user?
+                                    <a href="/users/new" target="_blank">Create a new user</a>.
+                                </span>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Date of Birth</label>

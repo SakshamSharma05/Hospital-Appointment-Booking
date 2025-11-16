@@ -25,7 +25,6 @@ public class Doctor {
     
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
-    @NotNull(message = "User is required")
     private User user;
     
     @ManyToOne
