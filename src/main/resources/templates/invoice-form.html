@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, ~{::title})}">
+<head>
+    <title th:text="${invoice.id != null} ? 'Edit Invoice' : 'Create Invoice'">Create Invoice</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h2 th:text="${invoice.id != null} ? 'Edit Invoice' : 'Create Invoice'">Create Invoice</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <form th:action="${invoice.id != null} ? @{/invoices/{id}(id=${invoice.id})} : @{/invoices}" 
+                      th:object="${invoice}" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Patient</label>
+                            <select class="form-select" th:field="*{patient.id}" required>
+                                <option value="">Select Patient</option>
+                                <option th:each="patient : ${patients}" 
+                                        th:value="${patient.id}" 
+                                        th:text="${patient.user.firstName + ' ' + patient.user.lastName}"
+                                        th:selected="${invoice.patient != null && invoice.patient.id == patient.id}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" th:field="*{status}">
+                                <option value="PENDING">Pending</option>
+                                <option value="PAID">Paid</option>
+                                <option value="PARTIAL">Partial</option>
+                                <option value="CANCELLED">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-control" th:field="*{dueDate}">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Invoice Items</label>
+                        <div th:each="item, iterStat : ${invoice.items}" class="border p-3 mb-2">
+                            <div class="row">
+                                <div class="col-md-5 mb-2">
+                                    <label class="form-label">Description</label>
+                                    <input type="text" class="form-control" th:field="*{items[__${iterStat.index}__].itemDescription}" required>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" th:field="*{items[__${iterStat.index}__].quantity}" min="1">
+                                </div>
+                                <div class="col-md-3 mb-2">
+                                    <label class="form-label">Unit Price</label>
+                                    <input type="number" step="0.01" class="form-control" th:field="*{items[__${iterStat.index}__].unitPrice}" required>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <label class="form-label">Total</label>
+                                    <input type="number" step="0.01" class="form-control" th:field="*{items[__${iterStat.index}__].totalPrice}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="addItem()">Add Item</button>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-control" th:field="*{notes}" rows="3"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-info">Save</button>
+                        <a href="/invoices" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function addItem() {
+            alert('Add item functionality - implement with JavaScript if needed');
+        }
+    </script>
+</body>
+</html>
+

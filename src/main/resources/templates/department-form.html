@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, ~{::title})}">
+<head>
+    <title th:text="${department.id != null} ? 'Edit Department' : 'Add Department'">Add Department</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h2 th:text="${department.id != null} ? 'Edit Department' : 'Add Department'">Add Department</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <form th:action="${department.id != null} ? @{/departments/{id}(id=${department.id})} : @{/departments}" 
+                      th:object="${department}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" th:field="*{name}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" th:field="*{description}" rows="4"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/departments" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

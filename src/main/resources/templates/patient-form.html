@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, ~{::title})}">
+<head>
+    <title th:text="${patient.id != null} ? 'Edit Patient' : 'Add Patient'">Add Patient</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h2 th:text="${patient.id != null} ? 'Edit Patient' : 'Add Patient'">Add Patient</h2>
+        
+        <div class="card">
+            <div class="card-body">
+                <form th:action="${patient.id != null} ? @{/patients/{id}(id=${patient.id})} : @{/patients}" 
+                      th:object="${patient}" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">User</label>
+                            <select class="form-select" name="userId" th:disabled="${patient.id != null}">
+                                <option value="">Select User</option>
+                                <option th:each="user : ${users}" 
+                                        th:value="${user.id}" 
+                                        th:text="${user.firstName + ' ' + user.lastName + ' (' + user.email + ')'}"
+                                        th:selected="${patient.user != null && patient.user.id == user.id}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" th:field="*{dateOfBirth}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select" th:field="*{gender}" required>
+                                <option value="">Select Gender</option>
+                                <option value="MALE">Male</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Blood Group</label>
+                            <select class="form-select" th:field="*{bloodGroup}">
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <textarea class="form-control" th:field="*{address}" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emergency Contact Name</label>
+                            <input type="text" class="form-control" th:field="*{emergencyContactName}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Emergency Contact Phone</label>
+                            <input type="text" class="form-control" th:field="*{emergencyContactPhone}">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Allergies</label>
+                        <textarea class="form-control" th:field="*{allergies}" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Medical History</label>
+                        <textarea class="form-control" th:field="*{medicalHistory}" rows="3"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="/patients" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
